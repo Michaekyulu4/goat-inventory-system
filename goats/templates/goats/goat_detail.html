@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goat Details</title>
+</head>
+<body>
+
+<h1>Goat {{ goat.tag_number }}</h1>
+
+<p><strong>Gender:</strong> {{ goat.get_gender_display }}</p>
+
+<p><strong>Date of Birth:</strong> {{ goat.date_of_birth }}</p>
+
+<p><strong>Date Bought:</strong> {{ goat.date_bought }}</p>
+
+<p><strong>Purchase Price:</strong> {{ goat.purchase_price }}</p>
+
+<p><strong>Status:</strong>
+{% if goat.is_alive %}
+Alive
+{% else %}
+Dead
+{% endif %}
+</p>
+
+<h2>Mother</h2>
+
+{% if goat.mother %}
+<a href="{% url 'goat_detail' goat.mother.id %}">
+    Goat {{ goat.mother.tag_number }}
+</a>
+{% else %}
+Unknown
+{% endif %}
+
+<h2>Kids</h2>
+
+<ul>
+{% for kid in kids %}
+    <li>
+        <a href="{% url 'goat_detail' kid.id %}">
+            Goat {{ kid.tag_number }}
+        </a>
+    </li>
+{% empty %}
+    <li>No kids recorded</li>
+{% endfor %}
+</ul>
+
+<h2>Image</h2>
+
+{% if goat.image %}
+<img src="{{ goat.image.url }}" width="300">
+{% else %}
+<p>No image available</p>
+{% endif %}
+
+<br><br>
+
+<a href="{% url 'goat_list' %}">Back to Inventory</a>
+
+</body>
+</html>

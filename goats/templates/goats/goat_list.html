@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goat Inventory</title>
+</head>
+<body>
+
+<h1>Goat Inventory</h1>
+
+<table border="1">
+    <tr>
+        <th>Tag Number</th>
+        <th>Gender</th>
+        <th>Status</th>
+        <th>View</th>
+    </tr>
+
+    {% for goat in goats %}
+    <tr>
+        <td>{{ goat.tag_number }}</td>
+        <td>{{ goat.get_gender_display }}</td>
+        <td>
+            {% if goat.is_alive %}
+                Alive
+            {% else %}
+                Dead
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'goat_detail' goat.id %}">Details</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
