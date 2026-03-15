@@ -55,6 +55,10 @@ Unknown
 <p>No image available</p>
 {% endif %}
 
+{% if goat.is_alive %}
+<a href="{% url 'record_death' goat.id %}">Record Death</a>
+{% endif %}
+
 <br><br>
 
 <a href="{% url 'goat_list' %}">Back to Inventory</a>

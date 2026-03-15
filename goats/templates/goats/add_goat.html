@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Goat</title>
+</head>
+<body>
+
+<h1>Add Goat</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Save Goat</button>
+
+</form>
+
+<br>
+
+<a href="{% url 'goat_list' %}">Back to Inventory</a>
+
+</body>
+</html>
