@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Goat Farm{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <!-- BRAND -->
+        <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
+            🐐 Goat Farm
+        </a>
+
+        <!-- TOGGLE (mobile) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- LINKS -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav me-auto">
+
+                <!-- DASHBOARD -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                       href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- GOATS -->
+                <li class="nav-item">
+                    <a class="nav-link {% if '/goats' in request.path %}active{% endif %}"
+                       href="{% url 'goat_list' %}">
+                        Goats
+                    </a>
+                </li>
+
+                <!-- ADD GOAT -->
+                <li class="nav-item">
+                    <a class="nav-link {% if '/add' in request.path %}active{% endif %}"
+                       href="{% url 'add_goat' %}">
+                        Add Goat
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- RIGHT SIDE (optional future use) -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <span class="navbar-text text-light small">
+                        Munda Wa Mbui
+                    </span>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container mt-4">
+
+    <!-- PAGE TITLE (optional) -->
+    {% block page_header %}
+    {% endblock %}
+
+    <!-- CONTENT -->
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

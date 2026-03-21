@@ -1,41 +1,112 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Goat Inventory</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Inventory{% endblock %}
 
-<h1>Goat Inventory</h1>
+{% block content %}
 
-<a href="{% url 'add_goat' %}">Add New Goat</a>
-<br><br>
+<h2 class="mb-3">🐐 Goat Inventory</h2>
 
-<table border="1">
-    <tr>
-        <th>Tag Number</th>
-        <th>Gender</th>
-        <th>Status</th>
-        <th>View</th>
-    </tr>
+<!-- FILTER FORM -->
+<form method="GET" class="row g-2 mb-4">
 
-    {% for goat in goats %}
-    <tr>
-        <td>{{ goat.tag_number }}</td>
-        <td>{{ goat.get_gender_display }}</td>
-        <td>
-            {% if goat.is_alive %}
+    <div class="col-md-4">
+        <input
+            class="form-control"
+            name="q"
+            value="{{ request.GET.q }}"
+            placeholder="Search tag number">
+    </div>
+
+    <div class="col-md-3">
+        <select class="form-control" name="status">
+            <option value="">All Status</option>
+
+            <option value="alive" {% if request.GET.status == "alive" %}selected{% endif %}>
                 Alive
-            {% else %}
+            </option>
+
+            <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>
+                Sold
+            </option>
+
+            <option value="dead" {% if request.GET.status == "dead" %}selected{% endif %}>
                 Dead
-            {% endif %}
-        </td>
-        <td>
-            <a href="{% url 'goat_detail' goat.id %}">Details</a>
-        </td>
-    </tr>
-    {% endfor %}
+            </option>
+        </select>
+    </div>
 
-</table>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Filter</button>
+    </div>
 
-</body>
-</html>
+    <div class="col-md-3 text-end">
+        <a href="{% url 'add_goat' %}" class="btn btn-success w-100">
+            + Add Goat
+        </a>
+    </div>
+
+</form>
+
+<!-- TABLE -->
+<div class="card shadow-sm p-3">
+
+    <table class="table table-hover align-middle">
+
+        <thead>
+            <tr>
+                <th>Tag Number</th>
+                <th>Gender</th>
+                <th>Status</th>
+                <th style="width: 120px;">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for goat in goats %}
+            <tr>
+
+                <td>
+                    <strong>{{ goat.tag_number }}</strong>
+                </td>
+
+                <td>
+                    {{ goat.get_gender_display }}
+                </td>
+
+                <td>
+                    <span class="badge
+                        {% if goat.status == 'alive' %}
+                            bg-success
+                        {% elif goat.status == 'sold' %}
+                            bg-warning text-dark
+                        {% else %}
+                            bg-danger
+                        {% endif %}
+                    ">
+                        {{ goat.get_status_display }}
+                    </span>
+                </td>
+
+                <td>
+                    <a class="btn btn-sm btn-info"
+                       href="{% url 'goat_detail' goat.id %}">
+                        View
+                    </a>
+                </td>
+
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    No goats found.
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

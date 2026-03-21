@@ -1,29 +1,123 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Farm Dashboard</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
 
-<h1>Goat Farm Dashboard</h1>
+{% block content %}
 
-<h2>Inventory</h2>
+<h2 class="mb-4">🐐 Goat Dashboard</h2>
 
-<p>Total Goats: {{ total_goats }}</p>
-<p>Alive Goats: {{ alive_goats }}</p>
-<p>Sold Goats: {{ sold_goats }}</p>
-<p>Dead Goats: {{ dead_goats }}</p>
+<!-- STATS CARDS -->
+<div class="row g-3 mb-4">
 
-<h2>Financials</h2>
+    <div class="col-md-3">
+        <div class="card p-3 text-center">
+            <h6>Total Goats</h6>
+            <h2>{{ total_goats }}</h2>
+        </div>
+    </div>
 
-<p>Total Purchase Cost: {{ total_purchase }}</p>
-<p>Total Sales Revenue: {{ total_sales }}</p>
-<p>Profit: {{ profit }}</p>
-<p>Average Profit per Sold Goat: {{ avg_profit_per_goat }}</p>
+    <div class="col-md-3">
+        <div class="card p-3 text-center bg-success text-white">
+            <h6>Alive</h6>
+            <h2>{{ alive_goats }}</h2>
+        </div>
+    </div>
 
-<br>
+    <div class="col-md-3">
+        <div class="card p-3 text-center bg-warning text-dark">
+            <h6>Sold</h6>
+            <h2>{{ sold_goats }}</h2>
+        </div>
+    </div>
 
-<a href="{% url 'goat_list' %}">Back to Goat List</a>
+    <div class="col-md-3">
+        <div class="card p-3 text-center bg-danger text-white">
+            <h6>Dead</h6>
+            <h2>{{ dead_goats }}</h2>
+        </div>
+    </div>
 
-</body>
-</html>
+</div>
+
+<!-- FINANCIALS -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h6>Total Purchase</h6>
+            <h4>{{ total_purchase }}</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h6>Total Sales</h6>
+            <h4>{{ total_sales }}</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h6>Profit</h6>
+            <h4>{{ profit }}</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h6>Average Profit Per Goat</h6>
+            <h4>{{ avg_profit_per_goat }}</h4>
+        </div>
+    </div>    
+
+</div>
+
+<!-- CHARTS -->
+<div class="row g-4">
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Status Pie Chart</h5>
+            <canvas id="statusPie"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Status Bar Chart</h5>
+            <canvas id="statusBar"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const labels = {{ labels|safe }};
+const counts = {{ counts|safe }};
+
+// PIE
+new Chart(document.getElementById('statusPie'), {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: counts
+        }]
+    }
+});
+
+// BAR
+new Chart(document.getElementById('statusBar'), {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Goats',
+            data: counts
+        }]
+    }
+});
+</script>
+
+{% endblock %}

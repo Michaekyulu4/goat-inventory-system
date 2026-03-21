@@ -1,76 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Goat Details</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-<h1>Goat {{ goat.tag_number }}</h1>
+<div class="card p-4 shadow-sm">
 
-<p><strong>Gender:</strong> {{ goat.get_gender_display }}</p>
+    <h2>🐐 Goat {{ goat.tag_number }}</h2>
 
-<p><strong>Date of Birth:</strong> {{ goat.date_of_birth }}</p>
+    <hr>
+    <h5>Image</h5>
+    {% if goat.image %}
+    <img src="{{ goat.image.url }}" class="img-fluid rounded" style="max-width: 300px;">
+    {% else %}
+    <p class="text-muted">No image available</p>
+    {% endif %}
 
-<p><strong>Date Bought:</strong> {{ goat.date_bought }}</p>
+    <p><b>Gender:</b> {{ goat.get_gender_display }}</p>
+    <p><b>DOB:</b> {{ goat.date_of_birth }}</p>
 
-<p><strong>Purchase Price:</strong> {{ goat.purchase_price }}</p>
-
-<p><strong>Status:</strong>
-{% if goat.is_sold %}
-    SOLD
-{% elif goat.is_alive %}
-    ALIVE
-{% else %}
-    DEAD
-{% endif %}
+    <p><b>Age:</b> {{ goat.age_display }}</p>
 </p>
 
-<h2>Mother</h2>
+    <p>
+        <b>Status:</b>
 
-{% if goat.mother %}
-<a href="{% url 'goat_detail' goat.mother.id %}">
-    Goat {{ goat.mother.tag_number }}
-</a>
-{% else %}
-Unknown
-{% endif %}
+        <span class="badge
+            {% if goat.status == 'alive' %}
+                bg-success
+            {% elif goat.status == 'sold' %}
+                bg-warning text-dark
+            {% else %}
+                bg-danger
+            {% endif %}
+        ">
+            {{ goat.get_status_display }}
+        </span>
+    </p>
 
-<h2>Kids</h2>
+    <hr>
 
-<ul>
-{% for kid in kids %}
-    <li>
-        <a href="{% url 'goat_detail' kid.id %}">
-            Goat {{ kid.tag_number }}
+    <h5>Mother</h5>
+
+    {% if goat.mother %}
+        <a href="{% url 'goat_detail' goat.mother.id %}">
+            Goat {{ goat.mother.tag_number }}
         </a>
-    </li>
-{% empty %}
-    <li>No kids recorded</li>
-{% endfor %}
-</ul>
+    {% else %}
+        None
+    {% endif %}
 
-<h2>Image</h2>
+    <hr>
 
-{% if goat.image %}
-<img src="{{ goat.image.url }}" width="300">
-{% else %}
-<p>No image available</p>
-{% endif %}
+    <h5>Actions</h5>
 
-<p>
-{% if goat.is_alive and not goat.is_sold %}
-<br>
-<a href="{% url 'record_sale' goat.id %}">Record Sale</a>
-{% endif %}
-</p>
+    {% if goat.status == 'alive' %}
+        <a class="btn btn-warning" href="{% url 'record_sale' goat.id %}">
+            Record Sale
+        </a>
 
-{% if goat.is_alive %}
-<a href="{% url 'record_death' goat.id %}">Record Death</a>
-{% endif %}
+        <a class="btn btn-danger" href="{% url 'record_death' goat.id %}">
+            Record Death
+        </a>
+    {% endif %}
 
-<br><br>
+</div>
 
-<a href="{% url 'goat_list' %}">Back to Inventory</a>
-
-</body>
-</html>
+{% endblock %}

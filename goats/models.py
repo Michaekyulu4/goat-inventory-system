@@ -1,10 +1,19 @@
 from django.db import models
+from datetime import date
 
 class Goat(models.Model):
     GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female')
     ]
+
+    STATUS_CHOICES = [
+        ('alive', 'Alive'),
+        ('sold', 'Sold'),
+        ('dead', 'Dead'),
+    ]
+
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='alive')
     tag_number = models.CharField(max_length=50, unique=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -26,12 +35,28 @@ class Goat(models.Model):
     health_status = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
 
-    is_alive = models.BooleanField(default=True)
-    
-    is_sold = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Goat {self.tag_number}"
+    
+    def age_display(self):
+        if not self.date_of_birth:
+            return "Unknown"
+        today = date.today()
+        years = today.year - self.date_of_birth.year
+        months = today.month - self.date_of_birth.month
+        
+        if today.day < self.date_of_birth.day:
+            months -= 1
+            
+        if months < 0:
+            years -= 1
+            months += 12
+
+        if years > 0:
+            return f"{years} year(s)"
+        else:
+            return f"{months} month(s)"
     
 class DeathRecord(models.Model):
 

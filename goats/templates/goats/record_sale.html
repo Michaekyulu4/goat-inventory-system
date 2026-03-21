@@ -1,25 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Record Goat Sale</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Record Sale{% endblock %}
 
-<h1>Record Sale for Goat {{ goat.tag_number }}</h1>
+{% block content %}
 
-<form method="POST">
+<div class="card p-4 shadow-sm">
 
-    {% csrf_token %}
+    <h3>💰 Record Sale</h3>
+    <p>Goat: <strong>{{ goat.tag_number }}</strong></p>
 
-    {{ form.as_p }}
+    <form method="POST">
+        {% csrf_token %}
 
-    <button type="submit">Record Sale</button>
+        <div class="mb-3">
+            <label>Date Sold</label>
+            {{ form.date_sold }}
+        </div>
 
-</form>
+        <div class="mb-3">
+            <label>Sale Price</label>
+            {{ form.sale_price }}
+        </div>
 
-<br>
+        <button class="btn btn-warning">Save Sale</button>
+        <a href="{% url 'goat_detail' goat.id %}" class="btn btn-secondary">Cancel</a>
 
-<a href="{% url 'goat_detail' goat.id %}">Cancel</a>
+    </form>
 
-</body>
-</html>
+</div>
+
+{% endblock %}

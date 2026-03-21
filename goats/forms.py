@@ -15,8 +15,13 @@ class GoatForm(forms.ModelForm):
             'purchase_price'
         ]
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-            'date_bought': forms.DateInput(attrs={'type': 'date'}),
+            'tag_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'mother': forms.Select(attrs={'class': 'form-control'}),
+            'date_bought': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'purchase_price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
         }
 class DeathRecordForm(forms.ModelForm):
 
