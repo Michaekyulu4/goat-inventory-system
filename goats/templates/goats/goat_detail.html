@@ -16,10 +16,12 @@
 <p><strong>Purchase Price:</strong> {{ goat.purchase_price }}</p>
 
 <p><strong>Status:</strong>
-{% if goat.is_alive %}
-Alive
+{% if goat.is_sold %}
+    SOLD
+{% elif goat.is_alive %}
+    ALIVE
 {% else %}
-Dead
+    DEAD
 {% endif %}
 </p>
 
@@ -54,6 +56,13 @@ Unknown
 {% else %}
 <p>No image available</p>
 {% endif %}
+
+<p>
+{% if goat.is_alive and not goat.is_sold %}
+<br>
+<a href="{% url 'record_sale' goat.id %}">Record Sale</a>
+{% endif %}
+</p>
 
 {% if goat.is_alive %}
 <a href="{% url 'record_death' goat.id %}">Record Death</a>

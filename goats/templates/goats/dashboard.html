@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farm Dashboard</title>
+</head>
+<body>
+
+<h1>Goat Farm Dashboard</h1>
+
+<h2>Inventory</h2>
+
+<p>Total Goats: {{ total_goats }}</p>
+<p>Alive Goats: {{ alive_goats }}</p>
+<p>Sold Goats: {{ sold_goats }}</p>
+<p>Dead Goats: {{ dead_goats }}</p>
+
+<h2>Financials</h2>
+
+<p>Total Purchase Cost: {{ total_purchase }}</p>
+<p>Total Sales Revenue: {{ total_sales }}</p>
+<p>Profit: {{ profit }}</p>
+<p>Average Profit per Sold Goat: {{ avg_profit_per_goat }}</p>
+
+<br>
+
+<a href="{% url 'goat_list' %}">Back to Goat List</a>
+
+</body>
+</html>
