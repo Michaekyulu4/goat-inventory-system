@@ -50,8 +50,7 @@ def dashboard(request):
         "counts": counts,
     }
 
-    return render(request, "goats/dashboard.html", context)
-
+    return render(request, "dashboard.html", context)
 
 # =========================
 # GOAT LIST (FIXED FILTER LOGIC)
