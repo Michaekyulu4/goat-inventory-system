@@ -4,6 +4,10 @@ from .forms import GoatForm
 from .forms import DeathRecordForm, SaleRecordForm
 from django.db.models import Sum, Count, Avg
 from django.db import IntegrityError
+from django.shortcuts import redirect
+
+def home(request):
+    return redirect('/goats/')
 
 def dashboard(request):
 
