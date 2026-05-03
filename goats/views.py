@@ -53,8 +53,8 @@ def dashboard(request):
         "labels": labels,
         "counts": counts,
     }
-
-    return render(request, "dashboard.html", context)
+    
+    return render(request, "goats/dashboard.html", context)
 
 # =========================
 # GOAT LIST (FIXED FILTER LOGIC)
